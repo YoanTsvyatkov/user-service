@@ -16,7 +16,9 @@ resourceController.post("/resource", verifyToken, async (req, res) => {
     try {
         const email = req.email;
         const user = await User.findOne({
-            email
+            where: {
+                email: email
+            }
         });
         const file = req.files.file;
         const data = await uploadResource(file.name, file.data);
@@ -40,10 +42,14 @@ resourceController.get("/resource",verifyToken, async (req, res) => {
 
     try {
         const user = await User.findOne({
-            email
+            where: {
+                email: email
+            }
         });
         const resources = await Resource.findAll({
-            userId: user.id
+            where: {
+                userId: user.id
+            }
         });
         const response = JSON.parse(JSON.stringify(resources));
         return res.send(response)
