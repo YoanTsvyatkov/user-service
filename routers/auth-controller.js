@@ -16,7 +16,9 @@ authController.post("/login", async (req, res) => {
 
     try {
       const user = await User.findOne({
-        email
+        where: {
+          email: email
+        }
       });
       if(!user){
         return res.sendStatus(404);
